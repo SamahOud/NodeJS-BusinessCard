@@ -13,10 +13,10 @@ const auth = (req, res, next) => {
             // Check if not token is returned
             if (!tokenFromClient) return handleError(res, 401, "Access denied. No token provided")
 
-            const userData = verifyAuthToken(tokenFromClient);
-            if (!userData) return handleError(res, 400, "Invalid token")
+            const decoded = verifyAuthToken(tokenFromClient);
+            if (!decoded) return handleError(res, 400, "Invalid token")
 
-            req.user = userData
+            req.user = decoded; // Attach decoded token to request object
             return next();
         } catch (err) {
             return handleError(res, 401, err.message)
